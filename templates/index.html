@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Outcome Predictor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        select, input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #1c6692;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #2ecc71;
+            background-color: #ecf9ec;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Predict Premier League 2024-25 Season Match</h1>
+        <form method="POST">
+            <label for="home_team">Home Team:</label>
+            <select id="home_team" name="home_team" required>
+                <option value="">Select Home Team</option>
+                {% for team in teams %}
+                    <option value="{{ team }}" {% if result and team == request.form['home_team'] %}selected{% endif %}>{{ team }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="away_team">Away Team:</label>
+            <select id="away_team" name="away_team" required>
+                <option value="">Select Away Team</option>
+                {% for team in teams %}
+                    <option value="{{ team }}" {% if result and team == request.form['away_team'] %}selected{% endif %}>{{ team }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="match_date">Match Date:</label>
+            <input type="date" id="match_date" name="match_date" required value="{{ request.form['match_date'] }}">
+            
+            <input type="submit" value="Predict">
+        </form>
+        
+        {% if result %}
+            <div class="result">
+                {{ result }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="footer">
+        <p>Project by Rami Kamel</p>
+    </div>
+</body>
+</html>
